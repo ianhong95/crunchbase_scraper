@@ -85,7 +85,7 @@ if __name__ == "__main__":
     wb = openpyxl.load_workbook(output_file)
     ws = wb.active
 
-    for row in range(455):
+    for row in range(110, 455):
         vc = ws['A' + str(row + 1)].value
 
         google_soup = PerformGoogleSearch(vc)
@@ -96,10 +96,12 @@ if __name__ == "__main__":
             info = FindCompanyInfo(cbase_page)
             print(f'Company site: {info[0]}')
             print(f'Company email: {info[1]}')
+            ExportToExcel(output_file, info[0], info[1], row + 1)
+
         else:
             print(f'No crunchbase profile found for {vc}!')
 
-        ExportToExcel(output_file, info[0], info[1], row + 1)
+        time.sleep(1)
 
     wb.save(output_file)
 
